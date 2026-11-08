@@ -2,7 +2,7 @@
 chcp 65001 >nul
 REM === Frida-server 17.19.0 на Pixel_6 (x86_64) ===
 REM Запускать при ВКЛЮЧЕННОМ эмуляторе. Сервер нужен для обхода SSL Pinning.
-set ADB=C:\Users\Hp\AppData\Local\Android\Sdk\platform-tools\adb.exe
+set ADB=%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools\adb.exe
 cd /d "%~dp0"
 if not exist frida-server ( echo [X] Нет файла frida-server & pause & exit /b 1 )
 

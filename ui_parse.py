@@ -1,8 +1,9 @@
 """Координаты кликабельных элементов из uiautomator-дампа."""
 import xml.etree.ElementTree as ET
+import os
 import re
 
-f = r"C:\Users\Hp\OneDrive\Desktop\GYM\mtsBurp\ui.xml"
+f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ui.xml")
 root = ET.parse(f).getroot()
 for node in root.iter("node"):
     text = node.get("text", "") or ""

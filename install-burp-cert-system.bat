@@ -16,7 +16,7 @@ if not defined MTSBURP_LOG (
   exit /b
 )
 
-set ADB=C:\Users\Hp\AppData\Local\Android\Sdk\platform-tools\adb.exe
+set ADB=%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools\adb.exe
 set OPENSSL=C:\Program Files\Git\usr\bin\openssl.exe
 cd /d "%~dp0"
 

@@ -2,11 +2,12 @@
 import asyncio
 import json
 import sys
+import os
 import urllib.request
 
 import websockets
 
-BASE = r"C:\Users\Hp\OneDrive\Desktop\GYM\mtsBurp"
+BASE = os.path.dirname(os.path.abspath(__file__))
 
 
 def api(path):

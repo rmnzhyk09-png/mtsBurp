@@ -4,7 +4,7 @@ REM === MTS Burp Bridge + Soft: ОДИН ЗАПУСК ВСЕГО ===
 REM 1. Проверяет Pixel_6, ставит прокси 10.0.2.2:8080
 REM 2. Проверяет Burp на 127.0.0.1:8080
 REM 3. Запускает soft/main.py
-set ADB=C:\Users\Hp\AppData\Local\Android\Sdk\platform-tools\adb.exe
+set ADB=%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools\adb.exe
 set SOFTDIR=%~dp0soft
 
 echo ===== [1/3] Проверка эмулятора =====

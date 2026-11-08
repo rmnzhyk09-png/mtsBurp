@@ -10,10 +10,10 @@ python -c "import requests, yaml, frida; print('  requests', requests.__version_
 frida --version 2>&1 | findstr /R "[0-9]" >nul && (echo|set /p="  frida-tools: " & frida --version) || echo "  frida-tools: НЕТ"
 objection version 2>&1 | findstr /I "objection" || echo "  objection: НЕТ"
 echo [3] ADB:
-"C:\Users\Hp\AppData\Local\Android\Sdk\platform-tools\adb.exe" version 2>&1 | findstr /I "Version"
-"C:\Users\Hp\AppData\Local\Android\Sdk\platform-tools\adb.exe" devices 2>&1
+"%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools\adb.exe" version 2>&1 | findstr /I "Version"
+"%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools\adb.exe" devices 2>&1
 echo [4] Эмуляторы (AVD):
-dir /b "C:\Users\Hp\.android\avd\*.ini" 2>&1
+dir /b "%USERPROFILE%\.android\avd\*.ini" 2>&1
 echo [5] Burp на 8080:
 python -c "import socket; s=socket.socket(); s.settimeout(2); s.connect(('127.0.0.1',8080)); print('  Burp СЛУШАЕТ 8080')" 2>nul || echo "  Burp НЕ отвечает (запусти Burp с листенером 8080)"
 echo [6] Frida-server файл:

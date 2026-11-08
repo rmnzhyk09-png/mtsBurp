@@ -3,11 +3,12 @@ import asyncio
 import base64
 import json
 import sys
+import os
 import urllib.request
 
 import websockets
 
-BASE = r"C:\Users\Hp\OneDrive\Desktop\GYM\mtsBurp"
+BASE = os.path.dirname(os.path.abspath(__file__))
 URL = sys.argv[1] if len(sys.argv) > 1 else "https://login.mts.ru/amserver/NUI/?client_id=My_MTS"
 PREFIX = sys.argv[2] if len(sys.argv) > 2 else "qrator_page"
 

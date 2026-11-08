@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 REM === Проверка: прокси + системный серт Burp на месте? ===
-set ADB=C:\Users\Hp\AppData\Local\Android\Sdk\platform-tools\adb.exe
+set ADB=%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools\adb.exe
 "%ADB%" wait-for-device
 echo --- 1. Прокси ---
 "%ADB%" shell settings get global http_proxy

@@ -5,10 +5,10 @@
 > Что именно убрано и как восстановить локально — см. [SECURITY.md](SECURITY.md).
 
 Твой текущий сетап (проверил):
-- `adb` есть: `C:\Users\Hp\AppData\Local\Android\Sdk\platform-tools\adb.exe`
+- `adb` есть: `%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools\adb.exe`
 - Эмуляторы есть: `Pixel_9`, `Pixel_9a` (образ `android-36.1 google_apis_playstore`, Android 16)
 - Burp НЕ найден — сначала поставь его
-- Твой IP в LAN: `192.168.0.105`, а для эмулятора хост — это всегда `10.0.2.2`
+- Твой IP в LAN: `<LAN-IP>`, а для эмулятора хост — это всегда `10.0.2.2`
 
 > Важно: твой образ **PlayStore нельзя зарутить** и нормально положить Burp CA в системные сертификаты.
 > Итог: Chrome со вставленным юзер-сертом заведется, а 90% приложений (МТС и др.) на Android 7+ будут рвать HTTPS с ошибкой pinning / Trust anchor.
