@@ -1,0 +1,25 @@
+# Секреты и сырые захваты
+*.pfx
+*.p12
+session.json
+last_cards.json
+logs_to_authn
+slepok_myak.txt
+.env
+*.log
+
+# Бинарник больше лимита GitHub (100 МБ на файл)
+frida-server
+frida-server-*
+
+# Дампы страниц и UI
+verify_page.*
+qrator_*
+ui.xml
+soft/logs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/

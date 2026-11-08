@@ -1,0 +1,6 @@
+# MTS API replay + Frida-стек — зависимости
+requests>=2.31
+pyyaml>=6.0
+frida==17.19.0
+frida-tools==14.10.4
+objection>=1.12

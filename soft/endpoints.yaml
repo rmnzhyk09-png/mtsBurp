@@ -1,0 +1,99 @@
+# ============================================================
+# MTS Burp Replay — карта endpoint'ов
+# ЗАПОЛНЕНО ИЗ РЕАЛЬНОГО СЛЕПКА (zaprosy, 27.09.2026, mtsdengi.ru, web-поток)
+# Флоу: send-code -> check -> cardsCheck(до) -> draft -> application -> cardsCheck(после)
+# Формат номера: +79XXXXXXXXX (с плюсом!)
+# ============================================================
+
+# Если true — весь трафик пойдет через Burp (для отладки).
+use_burp_proxy: true
+burp_proxy: "http://127.0.0.1:8080"
+
+verify_tls_when_no_proxy: true
+
+common_headers:
+  User-Agent: "Mozilla/5.0 (Linux; Android 13; sdk_gphone64_x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36"
+  Accept: "application/json, text/plain, */*"
+  Content-Type: "application/json"
+  Origin: "https://mtsdengi.ru"
+  Client-Id: "lewis-web-mtsid"
+
+# --- 1. Отправка SMS-кода на номер ---
+send_code:
+  method: "POST"
+  url: "https://mtsdengi.ru/auth/sms/send-code/"
+  headers: {}
+  phone_format: "+79XXXXXXXXX"
+  json_body:
+    phone: "{{phone}}"
+
+# --- 2. Проверка кода -> получение токена ---
+verify_code:
+  method: "POST"
+  url: "https://mtsdengi.ru/auth/sms/check/"
+  headers: {}
+  json_body:
+    phone: "{{phone}}"
+    code: "{{code}}"
+  # Ответ: {"data": {"access_token": "eyJ...JWT..."}}
+  token_path: "data.access_token"
+
+# --- 3. Проверка: список карт (ответ: {"cards": [...]}, плоский!) ---
+list_cards:
+  method: "GET"
+  url: "https://mtsdengi.ru/api/dc-lws-information/v1/cardsCheck"
+  headers:
+    Authorization: "Bearer {{token}}"
+  card_list_path: "cards"
+  card_id_field: "id"
+  card_mask_field: "maskedPan"
+  card_status_field: "status"
+
+# --- 4. Черновик заявки (согласия). processId = свежий UUID каждый запуск ---
+draft:
+  method: "POST"
+  url: "https://mtsdengi.ru/api/stj-application-drafts/v1/draft?processId={{processId}}&Channel=MTS_EIP_UMP"
+  headers:
+    Authorization: "Bearer {{token}}"
+  json_body:
+    form:
+      - {field: "persDataOffer", fieldValue: true}
+      - {field: "persDataProcessing", fieldValue: true}
+      - {field: "persDataProcessingMTS", fieldValue: true}
+      - {field: "persDataProcessingFTECH", fieldValue: true}
+      - {field: "persDataProcessingFintech", fieldValue: true}
+      - {field: "persDataProcessingThirdParties", fieldValue: true}
+      - {field: "electronicMeansOfPayment", fieldValue: true}
+      - {field: "electronicMeansOfPaymentFintech", fieldValue: true}
+      - {field: "electronicMeansOfPaymentMTS", fieldValue: true}
+      - {field: "notificationService", fieldValue: true}
+      - {field: "MTSCashbackService", fieldValue: true}
+      - {field: "MTSPremiumProgram", fieldValue: true}
+      - {field: "advertisingInformation", fieldValue: true}
+      - {field: "bkiFlag", fieldValue: true}
+      - {field: "taxUSAFlag", fieldValue: true}
+      - {field: "gatkaFlag", fieldValue: true}
+      - {field: "IPDLFlag", fieldValue: true}
+      - {field: "flagBloomtech", fieldValue: true}
+      - {field: "flagAllowMav", fieldValue: true}
+      - {field: "ProductName", fieldValue: "UPRID"}
+
+# --- 5. Выпуск виртуальной карты (ответ 201: {"id": "<applicationId>"}) ---
+issue_card:
+  method: "POST"
+  url: "https://mtsdengi.ru/api/pap-product-application/v1/application"
+  headers:
+    Authorization: "Bearer {{token}}"
+  json_body:
+    bank: "LEWIS"
+    channels:
+      - {type: "create", code: "site_mts_dengi", requestId: "{{processId}}"}
+    participants:
+      - {type: "PERSON", role: "CLIENT", questionnaire: {acceptOfferCondition: true}}
+    product: {type: "DebitCard", code: "70000104"}
+    utmInfo:
+      utmMedium: "cta-button"
+      utmSource: "eco-module"
+      utmCampaign: "oformit_kartu_besplatno"
+      utmContent: "fintech"
+      utmTerm: "main"
